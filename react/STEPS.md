@@ -3,13 +3,13 @@
 
 1. Install what we know we need: React & React-dom
 
-```
+```shell
 npm install react react-dom
 ```
 
 2. Install dev dependencies [^1]
 
-```
+```shell
 npm install vite @vitejs/plugin-react --save-dev
 ```
 
