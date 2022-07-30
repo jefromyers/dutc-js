@@ -28,7 +28,7 @@ def ping(request):
 
     return JSONResponse(
         {'ping': 'pong'}, 
-        headers = {"Access-Control-Allow-Origin": '*'}
+        headers = {"Access-Control-Allow-Origin": request.headers['Origin']}
     )
 
 async def add_campaign(request):
@@ -52,7 +52,7 @@ async def add_campaign(request):
 
     return JSONResponse(
         {'Created': f'{campaign.id} - {campaign.title}'}, 
-        headers = {"Access-Control-Allow-Origin": '*'}
+        headers = {"Access-Control-Allow-Origin": request.headers['Origin']}
     )
 
 async def ws_index(ws):
