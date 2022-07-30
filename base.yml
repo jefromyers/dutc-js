@@ -10,7 +10,7 @@ services:
 
     command: uvicorn app:app --host=0.0.0.0 --port 8000
 
-  frontend:
+  react:
     build:
       dockerfile: docker/react.dockerfile
       context: .
@@ -21,5 +21,19 @@ services:
 
     ports:
      - "3000:3000"
+
+    command: npm run dev 
+
+  svelte:
+    build:
+      dockerfile: docker/svelte.dockerfile
+      context: .
+    volumes:
+      - ./svelte/src:/app/src
+      - ./svelte/vite.config.js:/app/vite.config.js
+      - ./svelte/svelte.config.js:/app/svelte.config.js
+
+    ports:
+     - "3001:3001"
 
     command: npm run dev 
