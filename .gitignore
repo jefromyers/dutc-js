@@ -1,6 +1,9 @@
 node_modules
 *.db
 
+.svelte-kit/
+package
+
 ### Linux ###
 *~
 
