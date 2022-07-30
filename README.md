@@ -14,5 +14,7 @@ The simplest API/Frontend I can come up with.
 ./up.sh
 ```
 
-You should now be able to navigate to the [*Frontend*](http://localhost:3000/)
-and [*Backend*](http://localhost:8000/) locally 🥳.
+You should now be able to navigate to the [*React
+Frontend*](http://localhost:3000/), or the [*Svelte
+Frontend*](http://localhost:3001/) and [*Backend*](http://localhost:8000/)
+locally 🥳.
