@@ -24,7 +24,7 @@ async def ws_index(ws):
     await ws.send_text('sup')
     while True:
         msg = await ws.receive_text()
-        print(f'Message from client: {msg}')
+        logger.info(f'Message from client: {msg}')
     await websocket.close()
 
 routes = [
