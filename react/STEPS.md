@@ -15,7 +15,7 @@ npm install vite @vitejs/plugin-react --save-dev
 
 3. Add `vite.config.js`
 
-```
+```javascript
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -24,7 +24,7 @@ export default defineConfig({ plugins: [react()] })
 
 4. Add `scripts` and whatever to our `package.json` [^2]
 
-```
+```json
 "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
     "build": "vite build",
