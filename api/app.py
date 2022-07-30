@@ -1,4 +1,6 @@
 import logging
+import sqlalchemy
+from contextlib import contextmanager
 from random import choice
 from string import ascii_lowercase 
 
@@ -7,16 +9,50 @@ from starlette.routing import Route
 from starlette.responses import JSONResponse
 from starlette.routing import WebSocketRoute
 from starlette.websockets import WebSocket
+from database import SessionLocal, engine, Base, Campaign
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+Base.metadata.create_all(bind=engine)
+
+logger = logging.getLogger("uvicorn")
+
+@contextmanager
+def session():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def ping(request):
     ''' Signs of life '''
 
     return JSONResponse(
         {'ping': 'pong'}, 
-        headers = {"Access-Control-Allow-Origin": 'http://127.0.0.1:3000'}
+        headers = {"Access-Control-Allow-Origin": '*'}
+    )
+
+async def add_campaign(request):
+    ''' Add a Campaign '''
+
+    try:
+        payload = await request.json()
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=400, detail="Uable to parse request")
+    
+    title = payload.get('title')
+    if not title:
+        raise HTTPException(status_code=400, detail="Must provide a Campaign name")
+    
+    with session() as s:
+        campaign = Campaign(title=title)
+        s.add(campaign)
+        s.commit()
+        s.refresh(campaign)
+
+    return JSONResponse(
+        {'Created': f'{campaign.id} - {campaign.title}'}, 
+        headers = {"Access-Control-Allow-Origin": '*'}
     )
 
 async def ws_index(ws):
@@ -30,6 +66,9 @@ async def ws_index(ws):
 routes = [
     WebSocketRoute("/ws", endpoint=ws_index),
     Route("/", endpoint=ping, methods=["GET"]),
+    Route("/v1/campaigns/add", endpoint=add_campaign, methods=["POST"]),
 ]
 
-app = Starlette(routes=routes,)
+app = Starlette(
+    routes=routes,
+)
