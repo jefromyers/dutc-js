@@ -10,7 +10,7 @@ let ws
 onMount(async () => {
     ws = new WebSocket('ws://127.0.0.1:8000/ws');
     ws.onmessage = (msg) => {
-        console.log('Server says: ' + msg)
+        console.log(msg)
         ws.send('Hello there from Svelte')
     }
 });
