@@ -9,4 +9,3 @@ RUN npm cache clean --force
 RUN npm install 
 
 USER node
-COPY --chown=node:node . .
